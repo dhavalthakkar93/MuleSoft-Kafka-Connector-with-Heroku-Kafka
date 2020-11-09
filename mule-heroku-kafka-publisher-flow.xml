@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:kafka="http://www.mulesoft.org/schema/mule/kafka"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/kafka http://www.mulesoft.org/schema/mule/kafka/current/mule-kafka.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c729e54a-c88c-47bf-9a66-072876d23ede" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>		
+	<kafka:producer-config name="Apache_Kafka_Producer_configuration" doc:name="Apache Kafka Producer configuration" doc:id="4487b27c-328e-4e5a-81ed-bcc4eff49d92" >
+		<kafka:producer-plaintext-connection endpointIdentificationAlgorithm='#[""]' >
+			<tls:context>
+				<tls:trust-store path="<PATH_TO_TRUSTSTORE_JKS>" password="<TRUSTSTORE_PASS>" type="jks" />
+				<tls:key-store type="jks" path="<PATH_TO_KEYSTORE_JKS>" keyPassword="<KEYSTORE_PASS>" password="<KEYSTORE_PASS>"/>
+			</tls:context>
+			<kafka:bootstrap-servers >
+				<kafka:bootstrap-server value="<KAFKA_URL>" />
+			</kafka:bootstrap-servers>
+		</kafka:producer-plaintext-connection>
+	</kafka:producer-config>
+	<flow name="Mule-Heroku-Kafka-Produce" doc:id="33f6f894-4df1-438f-acfd-fb11582c168c" >
+		<http:listener doc:name="Listener" doc:id="309ac857-7146-4b76-8bd4-77e9efaa31b3" config-ref="HTTP_Listener_config" path="/publish"/>
+		<kafka:publish doc:name="Publish" doc:id="06f49ada-67fa-425e-b3dc-5b21aa71c2b4" config-ref="Apache_Kafka_Producer_configuration" topic="<KAFKA_TOPIC_NAME>" key='#["test"]'/>
+	</flow>
+</mule>
