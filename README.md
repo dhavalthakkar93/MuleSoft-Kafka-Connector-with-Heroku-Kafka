@@ -46,7 +46,7 @@ Once you create a new MuleSoft application, you need to add the dependency for [
 
 ### Configure producer to use keystore and truststore
 
-Configure the MuleSoft application to use Kafka Connector over SSL connection, you can use [sample producer configuration](https://github.com/dhavalthakkar93/MuleSoft-Kafka-Connector-with-Heroku-Kafka/blob/master/mule-heroku-kafka-publisher-flow.xml):
+Configure the MuleSoft application to use Kafka Connector over SSL connection, you can use [sample producer configuration](https://github.com/dhavalthakkar93/MuleSoft-Kafka-Connector-with-Heroku-Kafka/blob/master/mule-heroku-kafka-publisher-flow.xml#L12):
 
 - Copy and paste **keystore.jks** and **truststore.jks** file to **/src/main/resources** directory
 - Change **<PATH_TO_TRUSTSTORE_JKS>** (Set the path of truststore.jks) and **<TRUSTSTORE_PASS>** (Truststore password used to generate certificates)
